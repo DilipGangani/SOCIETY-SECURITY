@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Member – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Register New Member</h2>
+<a href="index.html">← Dashboard</a>
+
+<form onsubmit="registerMember(event)">
+  <input placeholder="Full Name" id="name" required><br><br>
+  <input type="number" placeholder="Age" id="age" required><br><br>
+  <input placeholder="Contact Number" id="contact" required><br><br>
+  <input placeholder="Address" id="address" required><br><br>
+
+  <h4>Nominee 1</h4>
+  <input placeholder="Name" id="n1name" required><br><br>
+
+  <h4>Nominee 2</h4>
+  <input placeholder="Name" id="n2name" required><br><br>
+
+  <button type="submit">Register</button>
+</form>
+
+<script src="script.js"></script>
+<script>
+function registerMember(e) {
+  e.preventDefault();
+
+  const age = parseInt(document.getElementById("age").value);
+  if (age < 18 || age > 65) {
+    alert("Membership allowed only between 18 and 65 years.");
+    return;
+  }
+
+  db.members.push({
+    memberId: "SS-" + Math.floor(Math.random() * 10000),
+    name: document.getElementById("name").value,
+    age,
+    contact: document.getElementById("contact").value,
+    address: document.getElementById("address").value,
+    membershipStartDate: new Date().toISOString().split("T")[0],
+    status: "Active",
+    nominee1: { name: document.getElementById("n1name").value },
+    nominee2: { name: document.getElementById("n2name").value }
+  });
+
+  alert("Member registered successfully");
+}
+</script>
+
+</body>
+</html>
