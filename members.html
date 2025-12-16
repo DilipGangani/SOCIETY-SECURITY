@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SOCIETY SECURITY – Members</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Members List</h2>
+<a href="index.html">← Dashboard</a>
+
+<table border="1" width="100%" cellpadding="8">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Age</th>
+      <th>Status</th>
+      <th>Insurance Active</th>
+    </tr>
+  </thead>
+  <tbody id="membersTable"></tbody>
+</table>
+
+<script src="script.js"></script>
+<script>
+  function renderMembers() {
+    const table = document.getElementById("membersTable");
+    table.innerHTML = "";
+
+    db.members.forEach(m => {
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${m.memberId}</td>
+        <td>${m.name}</td>
+        <td>${m.age}</td>
+        <td>${m.status}</td>
+        <td>${insuranceActive(m) ? "Yes" : "No"}</td>
+      `;
+      table.appendChild(row);
+    });
+  }
+
+  setTimeout(renderMembers, 500);
+</script>
+
+</body>
+</html>
