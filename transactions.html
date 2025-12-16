@@ -52,6 +52,7 @@ function createTransaction(e) {
     if (receipt) {
       total += receipt.totalAmount;
       receipt.paymentStatus = "Paid";
+      receipt.paidDate = new Date().toISOString().split("T")[0];
     }
   });
 
