@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receipts – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Collection Receipts</h2>
+<a href="index.html">← Dashboard</a>
+
+<table border="1" width="100%" cellpadding="8">
+  <thead>
+    <tr>
+      <th>Receipt ID</th>
+      <th>Member ID</th>
+      <th>Death Event</th>
+      <th>Amount</th>
+      <th>Status</th>
+      <th>Action</th>
+    </tr>
+  </thead>
+  <tbody id="receiptTable"></tbody>
+</table>
+
+<button onclick="applyPenaltyAndDefaults()">Apply Due / Grace Rules</button>
+
+<script src="script.js"></script>
+<script>
+function renderReceipts() {
+  const table = document.getElementById("receiptTable");
+  table.innerHTML = "";
+
+  db.receipts.forEach(r => {
+    const row = document.createElement("tr");
+    row.innerHTML = `
+      <td>${r.receiptId}</td>
+      <td>${r.memberId}</td>
+      <td>${r.deathEventId}</td>
+      <td>₹${r.totalAmount}</td>
+      <td>${r.paymentStatus}</td>
+      <td>
+        ${r.paymentStatus === "Unpaid"
+          ? `<button onclick="markReceiptPaid('${r.receiptId}')">Mark Paid</button>`
+          : "-"}
+      </td>
+    `;
+    table.appendChild(row);
+  });
+}
+
+setTimeout(renderReceipts, 500);
+</script>
+
+</body>
+</html>
