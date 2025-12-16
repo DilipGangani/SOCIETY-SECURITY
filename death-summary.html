@@ -5,6 +5,7 @@
   <title>Death Event Summary – SOCIETY SECURITY</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<button onclick="exportSummary()">Export Payout Summary (CSV)</button>
 <body>
 
 <h2>Death Event – Payout Summary</h2>
@@ -78,6 +79,22 @@ function closeEvent(eventId) {
     alert("Death event closed. Payout can be released.");
   }
 }
+  function exportSummary() {
+  const eventId = document.getElementById("eventSelect").value;
+  const receipts = db.receipts.filter(r => r.deathEventId === eventId);
+
+  const rows = receipts.map(r => ({
+    deathEventId: r.deathEventId,
+    receiptId: r.receiptId,
+    memberId: r.memberId,
+    amount: r.totalAmount,
+    status: r.paymentStatus,
+    paidDate: r.paidDate || ""
+  }));
+
+  downloadCSV(`death_event_${eventId}_summary.csv`, rows);
+}
+
 </script>
 
 </body>
