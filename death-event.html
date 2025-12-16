@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Death Event – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Mark Member as Died</h2>
+<a href="index.html">← Dashboard</a>
+
+<select id="deceased"></select><br><br>
+<button onclick="createDeathEvent()">Create Death Event</button>
+
+<script src="script.js"></script>
+<script>
+setTimeout(() => {
+  const select = document.getElementById("deceased");
+  db.members.forEach(m => {
+    if (m.status === "Active") {
+      const opt = document.createElement("option");
+      opt.value = m.memberId;
+      opt.textContent = `${m.memberId} - ${m.name}`;
+      select.appendChild(opt);
+    }
+  });
+}, 500);
+
+function createDeathEvent() {
+  const memberId = document.getElementById("deceased").value;
+  const today = new Date();
+  const due = new Date(today);
+  due.setMonth(due.getMonth() + 1);
+  const grace = new Date(due);
+  grace.setMonth(grace.getMonth() + 1);
+
+  const deathEventId = "DE-" + Math.random().toString(36).substring(2, 6);
+
+  db.deathEvents.push({
+    deathEventId,
+    memberId,
+    dateOfDeath: today.toISOString().split("T")[0],
+    dueDate: due.toISOString().split("T")[0],
+    graceDate: grace.toISOString().split("T")[0],
+    status: "Open"
+  });
+
+  generateReceiptsForDeath(deathEventId);
+
+  alert("Death event created and receipts generated.");
+}
+</script>
+
+</body>
+</html>
