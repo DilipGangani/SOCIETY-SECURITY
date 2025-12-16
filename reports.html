@@ -61,7 +61,8 @@ function generateMonthly() {
   let paid = 0, unpaid = 0, defaulted = 0, total = 0;
 
   db.receipts.forEach(r => {
-    const d = new Date(r.date || new Date());
+    if (!r.paidDate) return;
+    const d = new Date(r.paidDate);
     if (d.getMonth() === m && d.getFullYear() === y) {
       if (r.paymentStatus === "Paid") {
         paid++;
