@@ -41,6 +41,7 @@ function renderReceipts() {
       <td>${r.deathEventId}</td>
       <td>₹${r.totalAmount}</td>
       <td>${r.paymentStatus}</td>
+      <td>${r.paidDate || "-"}</td>
       <td>
   ${r.paymentStatus === "Unpaid"
     ? `<button onclick="markReceiptPaid('${r.receiptId}')">Mark Paid</button>`
