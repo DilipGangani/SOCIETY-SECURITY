@@ -41,10 +41,11 @@ function renderReceipts() {
       <td>₹${r.totalAmount}</td>
       <td>${r.paymentStatus}</td>
       <td>
-        ${r.paymentStatus === "Unpaid"
-          ? `<button onclick="markReceiptPaid('${r.receiptId}')">Mark Paid</button>`
-          : "-"}
-      </td>
+  ${r.paymentStatus === "Unpaid"
+    ? `<button onclick="markReceiptPaid('${r.receiptId}')">Mark Paid</button>`
+    : `<a href="receipt-print.html?rid=${r.receiptId}" target="_blank">Print</a>`}
+</td>
+
     `;
     table.appendChild(row);
   });
