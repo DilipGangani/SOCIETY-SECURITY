@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receipt – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    .receipt-box {
+      max-width: 600px;
+      margin: auto;
+      border: 1px solid #000;
+      padding: 20px;
+    }
+    .center { text-align: center; }
+    .bold { font-weight: bold; }
+  </style>
+</head>
+<body>
+
+<div class="receipt-box" id="receiptBox">
+  <h2 class="center">SOCIETY SECURITY</h2>
+  <p class="center">Insurance Contribution Receipt</p>
+  <hr>
+
+  <p><b>Receipt ID:</b> <span id="rid"></span></p>
+  <p><b>Member ID:</b> <span id="mid"></span></p>
+  <p><b>Death Event:</b> <span id="deid"></span></p>
+  <p><b>Amount Paid:</b> ₹<span id="amount"></span></p>
+  <p><b>Status:</b> <span id="status"></span></p>
+  <p><b>Date:</b> <span id="date"></span></p>
+
+  <hr>
+  <p class="center">Authorized by SOCIETY SECURITY</p>
+</div>
+
+<br>
+<div class="center">
+  <button onclick="window.print()">Print Receipt</button>
+</div>
+
+<script src="script.js"></script>
+<script>
+const params = new URLSearchParams(window.location.search);
+const receiptId = params.get("rid");
+
+const receipt = db.receipts.find(r => r.receiptId === receiptId);
+
+if (receipt) {
+  document.getElementById("rid").textContent = receipt.receiptId;
+  document.getElementById("mid").textContent = receipt.memberId;
+  document.getElementById("deid").textContent = receipt.deathEventId;
+  document.getElementById("amount").textContent = receipt.totalAmount;
+  document.getElementById("status").textContent = receipt.paymentStatus;
+  document.getElementById("date").textContent = new Date().toLocaleDateString();
+}
+</script>
+
+</body>
+</html>
