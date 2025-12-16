@@ -1,11 +1,17 @@
-let db = {};
+let db = JSON.parse(localStorage.getItem("societyDB"));
 
-fetch("data.json")
-  .then(res => res.json())
-  .then(data => {
-    db = data;
-    renderDashboard();
-  });
+if (!db) {
+  fetch("data.json")
+    .then(res => res.json())
+    .then(data => {
+      db = data;
+      saveDB();
+      renderDashboard();
+    });
+} else {
+  renderDashboard();
+}
+
 
 function daysBetween(date1, date2) {
   return Math.floor((date2 - date1) / (1000 * 60 * 60 * 24));
