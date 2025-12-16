@@ -165,6 +165,15 @@ function downloadCSV(filename, rows) {
   link.click();
   document.body.removeChild(link);
 }
+function changeAdminPIN(oldPin, newPin) {
+  const savedPin = localStorage.getItem("adminPIN");
+  if (oldPin === savedPin) {
+    localStorage.setItem("adminPIN", newPin);
+    alert("PIN changed successfully");
+  } else {
+    alert("Old PIN incorrect");
+  }
+}
 
 function logout() {
   localStorage.removeItem("adminSession");
