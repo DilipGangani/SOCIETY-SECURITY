@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Financial Reports – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Financial Reports</h2>
+<a href="index.html">← Dashboard</a>
+
+<h3>Monthly Report</h3>
+<select id="month"></select>
+<select id="year"></select>
+<button onclick="generateMonthly()">Generate</button>
+
+<div id="monthlyReport"></div>
+
+<hr>
+
+<h3>Yearly Report</h3>
+<select id="yearly"></select>
+<button onclick="generateYearly()">Generate</button>
+
+<div id="yearlyReport"></div>
+
+<script src="script.js"></script>
+<script>
+const now = new Date();
+
+function populateSelectors() {
+  const monthSel = document.getElementById("month");
+  const yearSel = document.getElementById("year");
+  const yearlySel = document.getElementById("yearly");
+
+  for (let m = 0; m < 12; m++) {
+    const opt = document.createElement("option");
+    opt.value = m;
+    opt.textContent = new Date(0, m).toLocaleString("default", { month: "long" });
+    monthSel.appendChild(opt);
+  }
+
+  for (let y = now.getFullYear() - 2; y <= now.getFullYear() + 1; y++) {
+    const opt1 = document.createElement("option");
+    opt1.value = y;
+    opt1.textContent = y;
+    yearSel.appendChild(opt1);
+
+    const opt2 = opt1.cloneNode(true);
+    yearlySel.appendChild(opt2);
+  }
+}
+
+populateSelectors();
+
+function generateMonthly() {
+  const m = parseInt(document.getElementById("month").value);
+  const y = parseInt(document.getElementById("year").value);
+
+  let paid = 0, unpaid = 0, defaulted = 0, total = 0;
+
+  db.receipts.forEach(r => {
+    const d = new Date(r.date || new Date());
+    if (d.getMonth() === m && d.getFullYear() === y) {
+      if (r.paymentStatus === "Paid") {
+        paid++;
+        total += r.totalAmount;
+      } else if (r.paymentStatus === "Unpaid") unpaid++;
+      else if
