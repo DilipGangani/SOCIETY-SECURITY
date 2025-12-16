@@ -55,6 +55,21 @@ function renderReceipts() {
 }
 
 setTimeout(renderReceipts, 500);
+function exportReceipts() {
+  const rows = db.receipts.map(r => ({
+    receiptId: r.receiptId,
+    memberId: r.memberId,
+    deathEventId: r.deathEventId,
+    baseAmount: r.baseAmount,
+    penalty: r.penalty,
+    totalAmount: r.totalAmount,
+    paymentStatus: r.paymentStatus,
+    paidDate: r.paidDate || ""
+  }));
+
+  downloadCSV("collection_receipts.csv", rows);
+}
+
 </script>
 
 </body>
