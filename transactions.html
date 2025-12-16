@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Transactions – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>New Transaction (Bulk Payment)</h2>
+<a href="index.html">← Dashboard</a>
+
+<form onsubmit="createTransaction(event)">
+  <input placeholder="Payment Mode (Cash/UPI/Bank)" id="mode" required><br><br>
+
+  <h4>Select Receipts to Pay</h4>
+  <div id="receiptList"></div><br>
+
+  <button type="submit">Save Transaction</button>
+</form>
+
+<script src="script.js"></script>
+<script>
+setTimeout(() => {
+  const list = document.getElementById("receiptList");
+  db.receipts
+    .filter(r => r.paymentStatus === "Unpaid")
+    .forEach(r => {
+      const cb = document.createElement("div");
+      cb.innerHTML = `
+        <input type="checkbox" value="${r.receiptId}">
+        ${r.receiptId} – ${r.memberId} – ₹${r.totalAmount}
+      `;
+      list.appendChild(cb);
+    });
+}, 500);
+
+function createTransaction(e) {
+  e.preventDefault();
+
+  const selected = [...document.querySelectorAll("input[type=checkbox]:checked")]
+    .map(cb => cb.value);
+
+  if (selected.length === 0) {
+    alert("Select at least one receipt");
+    return;
+  }
+
+  let total = 0;
+  selected.forEach(id => {
+    const receipt = db.receipts.find(r => r.receiptId === id);
+    if (receipt) {
+      total += receipt.totalAmount;
+      receipt.paymentStatus = "Paid";
+    }
+  });
+
+  db.transactions.push({
+    transactionId: "TXN-" + Math.random().toString(36).substring(2, 6),
+    date: new Date().toISOString().split("T")[0],
+    paymentMode: document.getElementById("mode").value,
+    totalAmount: total
+  });
+
+  alert("Transaction saved. Members marked as PAID.");
+}
+</script>
+
+</body>
+</html>
