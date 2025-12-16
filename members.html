@@ -41,7 +41,24 @@
       `;
       table.appendChild(row);
     });
-  }
+    }
+    function exportMembers() {
+  const rows = db.members.map(m => ({
+    memberId: m.memberId,
+    name: m.name,
+    age: m.age,
+    gender: m.gender || "",
+    contact: m.contact,
+    address: m.address,
+    status: m.status,
+    insuranceActive: insuranceActive(m) ? "Yes" : "No",
+    membershipStartDate: m.membershipStartDate,
+    nominee1: m.nominee1?.name || "",
+    nominee2: m.nominee2?.name || ""
+  }));
+
+  downloadCSV("society_members.csv", rows);
+}
 
   setTimeout(renderMembers, 500);
 </script>
