@@ -130,3 +130,26 @@ function resetSystem() {
   localStorage.removeItem("societyDB");
   location.reload();
 }
+
+function downloadCSV(filename, rows) {
+  if (!rows || !rows.length) {
+    alert("No data to export");
+    return;
+  }
+
+  const headers = Object.keys(rows[0]);
+  const csvContent = [
+    headers.join(","),
+    ...rows.map(row =>
+      headers.map(h => `"${(row[h] ?? "").toString().replace(/"/g, '""')}"`).join(",")
+    )
+  ].join("\n");
+
+  const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+}
