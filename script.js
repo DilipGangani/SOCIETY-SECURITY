@@ -111,3 +111,12 @@ function terminateMember(memberId) {
   const member = db.members.find(m => m.memberId === memberId);
   if (member) member.status = "Terminated";
 }
+
+function saveDB() {
+  localStorage.setItem("societyDB", JSON.stringify(db));
+}
+
+function resetSystem() {
+  localStorage.removeItem("societyDB");
+  location.reload();
+}
