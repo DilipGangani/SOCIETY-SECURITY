@@ -5,6 +5,7 @@
   <title>Transactions – SOCIETY SECURITY</title>
   <link rel="stylesheet" href="style.css">
 </head>
+<button onclick="exportTransactions()">Export Transactions (CSV)</button>
 <body>
 
 <h2>New Transaction (Bulk Payment)</h2>
@@ -65,6 +66,16 @@ function createTransaction(e) {
 
   alert("Transaction saved. Members marked as PAID.");
   saveDB();
+}
+function exportTransactions() {
+  const rows = db.transactions.map(t => ({
+    transactionId: t.transactionId,
+    date: t.date,
+    paymentMode: t.paymentMode,
+    totalAmount: t.totalAmount
+  }));
+
+  downloadCSV("transactions.csv", rows);
 }
 </script>
 
