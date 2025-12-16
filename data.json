@@ -1,0 +1,53 @@
+{
+  "members": [
+    {
+      "memberId": "SS-0001",
+      "name": "Ramesh Patel",
+      "age": 45,
+      "gender": "Male",
+      "contact": "9999999999",
+      "address": "Ahmedabad",
+      "membershipStartDate": "2024-12-01",
+      "status": "Active",
+      "nominee1": { "name": "Sita Patel", "relation": "Wife" },
+      "nominee2": { "name": "Amit Patel", "relation": "Son" }
+    },
+    {
+      "memberId": "SS-0002",
+      "name": "Kiran Shah",
+      "age": 38,
+      "gender": "Female",
+      "contact": "8888888888",
+      "address": "Surat",
+      "membershipStartDate": "2025-03-01",
+      "status": "Active",
+      "nominee1": { "name": "Mahesh Shah", "relation": "Husband" },
+      "nominee2": { "name": "Nisha Shah", "relation": "Daughter" }
+    }
+  ],
+
+  "deathEvents": [
+    {
+      "deathEventId": "DE-2025-001",
+      "memberId": "SS-0009",
+      "dateOfDeath": "2025-06-01",
+      "dueDate": "2025-07-01",
+      "graceDate": "2025-08-01",
+      "status": "Open"
+    }
+  ],
+
+  "receipts": [
+    {
+      "receiptId": "RCPT-0001",
+      "deathEventId": "DE-2025-001",
+      "memberId": "SS-0001",
+      "baseAmount": 150,
+      "penalty": 0,
+      "totalAmount": 150,
+      "paymentStatus": "Unpaid"
+    }
+  ],
+
+  "transactions": []
+}
