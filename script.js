@@ -79,10 +79,12 @@ function markReceiptPaid(receiptId) {
   if (!receipt) return;
 
   receipt.paymentStatus = "Paid";
+  receipt.paidDate = new Date().toISOString().split("T")[0];
+
   saveDB();
   renderDashboard();
-
 }
+
 
 /* === OVERDUE CHECK (DUE + GRACE) === */
 
