@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Death Event Summary – SOCIETY SECURITY</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h2>Death Event – Payout Summary</h2>
+<a href="index.html">← Dashboard</a>
+
+<select id="eventSelect"></select>
+<button onclick="loadSummary()">Load Summary</button>
+
+<hr>
+
+<div id="summary"></div>
+
+<script src="script.js"></script>
+<script>
+setTimeout(() => {
+  const sel = document.getElementById("eventSelect");
+  db.deathEvents.forEach(e => {
+    const opt = document.createElement("option");
+    opt.value = e.deathEventId;
+    opt.textContent = e.deathEventId + " (Member: " + e.memberId + ")";
+    sel.appendChild(opt);
+  });
+}, 500);
+
+function loadSummary() {
+  const eventId = document.getElementById("eventSelect").value;
+  const receipts = db.receipts.filter(r => r.deathEventId === eventId);
+
+  let paid = 0, unpaid = 0, defaulted = 0, totalCollected = 0;
+
+  receipts.forEach(r => {
+    if (r.paymentStatus === "Paid") {
+      paid++;
+      totalCollected += r.totalAmount;
+    } else if (r.paymentStatus === "Unpaid") {
+      unpaid++;
+    } else if (r.paymentStatus === "Defaulted") {
+      defaulted++;
+    }
+  });
+
+  const deceased = db.deathEvents.find(d => d.deathEventId === eventId);
+  const member = db.members.find(m => m.memberId === deceased.memberId);
+
+  document.getElementById("summary").innerHTML = `
+    <h3>Deceased Member</h3>
+    <p><b>${member.name}</b> (${member.memberId})</p>
+
+    <h3>Nominee</h3>
+    <p>${member.nominee1.name}</p>
+
+    <h3>Collection Status</h3>
+    <ul>
+      <li>Paid Members: ${paid}</li>
+      <li>Unpaid Members: ${unpaid}</li>
+      <li>Defaulted Members: ${defaulted}</li>
+    </ul>
+
+    <h3>Total Payable Amount</h3>
+    <p><b>₹${totalCollected}</b></p>
+
+    <button onclick="closeEvent('${eventId}')">Mark Event as Closed</button>
+  `;
+}
+
+function closeEvent(eventId) {
+  const event = db.deathEvents.find(e => e.deathEventId === eventId);
+  if (event) {
+    event.status = "Closed";
+    saveDB();
+    alert("Death event closed. Payout can be released.");
+  }
+}
+</script>
+
+</body>
+</html>
