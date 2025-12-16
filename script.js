@@ -1,3 +1,15 @@
+function requireAdmin() {
+  const isLoginPage = location.pathname.endsWith("login.html");
+  const session = localStorage.getItem("adminSession");
+
+  if (!session && !isLoginPage) {
+    location.href = "login.html";
+  }
+}
+
+requireAdmin();
+
+
 let db = JSON.parse(localStorage.getItem("societyDB"));
 
 if (!db) {
