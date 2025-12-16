@@ -165,3 +165,8 @@ function downloadCSV(filename, rows) {
   link.click();
   document.body.removeChild(link);
 }
+
+function logout() {
+  localStorage.removeItem("adminSession");
+  location.href = "login.html";
+}
