@@ -69,6 +69,7 @@ function generateReceiptsForDeath(deathEventId) {
   });
 
   renderDashboard();
+  saveDB();
 }
 
 /* === PAYMENT LOGIC === */
@@ -78,7 +79,9 @@ function markReceiptPaid(receiptId) {
   if (!receipt) return;
 
   receipt.paymentStatus = "Paid";
+  saveDB();
   renderDashboard();
+
 }
 
 /* === OVERDUE CHECK (DUE + GRACE) === */
@@ -104,13 +107,18 @@ function applyPenaltyAndDefaults() {
     });
   });
 
+  saveDB();
   renderDashboard();
 }
 
 function terminateMember(memberId) {
   const member = db.members.find(m => m.memberId === memberId);
-  if (member) member.status = "Terminated";
+  if (member) {
+    member.status = "Terminated";
+    saveDB();
+  }
 }
+
 
 function saveDB() {
   localStorage.setItem("societyDB", JSON.stringify(db));
